@@ -22,7 +22,7 @@ public class Worker {
         System.out.println("[*] Waiting for messages, To exit press CTRL+C" +
                 "[*] 메세지를 기다리는 중입니다. 종료하려면 CTRL+C를 누르십시오.");
 
-        //기존 메세지 = 균등하게 적용 -> 현제 메세지 = RabbitMQ가 server 에게 한 번에 둘 이상의 메세지를 제공하지 않음.
+        //기존 메세지 = 균등하게 적용 -> 현제 메세지 = RabbitMQ가 consumer 에게 한 번에 둘 이상의 메세지를 제공하지 않음.
         int prefetchCount = 1;
         channel.basicQos(prefetchCount);
 
@@ -36,7 +36,7 @@ public class Worker {
                 doWork();
             } finally {
                 System.out.println(" [x] Done");
-                //ack를 전송(메세지의 손실 유무를 판단)
+                //ack를 전송(메세지의 손실 여부를 판단)
                 channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
             }
         };
